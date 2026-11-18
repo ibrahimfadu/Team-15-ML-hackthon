@@ -1,0 +1,35 @@
+{
+  "project": "PathSnap",
+  "features": [
+    "dist_to_segment",
+    "projection_ratio",
+    "heading_diff",
+    "segment_length",
+    "dist_to_start",
+    "dist_to_end",
+    "gps_speed",
+    "candidate_rank"
+  ],
+  "target": "label",
+  "split": "GroupShuffleSplit(test_size=0.20, random_state=42)",
+  "initial_models": {
+    "Random Forest": "100 trees, max_depth=15, min_samples_split=10, min_samples_leaf=5, max_features=sqrt, class_weight=balanced",
+    "Logistic Regression": "StandardScaler + LogisticRegression(class_weight=balanced, max_iter=300, lbfgs)",
+    "Decision Tree": "max_depth=15, min_samples_split=10, min_samples_leaf=5, class_weight=balanced",
+    "HistGradientBoosting": "max_iter=100, max_leaf_nodes=31, learning_rate=0.1, l2_regularization=1.0, class_weight=balanced",
+    "KNN": "StandardScaler + 7 neighbours, distance weights; fitted on 100,000-row sample"
+  },
+  "tuned_random_forest": {
+    "n_estimators": 120,
+    "max_depth": 22,
+    "min_samples_split": 5,
+    "min_samples_leaf": 6,
+    "max_features": "sqrt"
+  },
+  "selected_threshold": 0.8,
+  "threshold_selection": "Maximum positive-class F1 on validation set",
+  "bayesian_optimization": "Optuna TPE, 8 trials, sample-based search",
+  "random_state": 42,
+  "python": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]",
+  "platform": "Linux-6.6.159+-x86_64-with-glibc2.39"
+}

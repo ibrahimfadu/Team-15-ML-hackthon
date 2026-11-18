@@ -1,0 +1,19 @@
+{
+  "train_model_ready_rows": 1333521,
+  "student_test_model_ready_rows": 166448,
+  "training_split_rows": 1068205,
+  "validation_rows": 265316,
+  "training_trips": 64,
+  "validation_trips": 16,
+  "student_test_trips": 10,
+  "features": [
+    "dist_to_segment",
+    "projection_ratio",
+    "heading_diff",
+    "segment_length",
+    "dist_to_start",
+    "dist_to_end",
+    "gps_speed",
+    "candidate_rank"
+  ]
+}

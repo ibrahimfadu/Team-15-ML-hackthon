@@ -1,0 +1,15 @@
+{
+  "sampler": "Optuna TPESampler",
+  "objective": "Validation sample Macro F1 at threshold 0.5",
+  "n_trials": 8,
+  "training_sample_rows": 160000,
+  "validation_sample_rows": 60000,
+  "best_value": 0.9006424071553852,
+  "best_params": {
+    "n_estimators": 120,
+    "max_depth": 22,
+    "min_samples_split": 5,
+    "min_samples_leaf": 6,
+    "max_features": "sqrt"
+  }
+}

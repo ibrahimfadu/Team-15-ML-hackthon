@@ -1,0 +1,2 @@
+Model,Threshold,Candidate Accuracy,Candidate Precision,Candidate Recall,Candidate F1,Macro F1,Log Loss,ROC AUC,Average Precision,Observation Top-1 Accuracy,Observation Macro F1,Observations Evaluated,Inference Time (s),Route Continuity
+Tuned Random Forest,0.8,0.9884168028453331,0.8236634531113058,0.835972246931151,0.8297722055447643,0.9118883106897874,0.04803924202349834,0.9902671940054746,0.8884241961128782,0.8442246555987284,0.4577667113579774,5662,1.1465015411376953,N/A - sequence decoder not evaluated in this notebook

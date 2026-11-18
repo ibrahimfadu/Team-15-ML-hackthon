@@ -26,3 +26,12 @@ data/evaluator_test/*
 
 # Temporary exports
 *.tmp
+# Training datasets - keep locally, do not push
+data/training_source/
+
+# Python generated files
+*.pyc
+__pycache__/
+
+# Avoid committing duplicate model archive
+models/*.zip
