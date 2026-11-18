@@ -35,3 +35,9 @@ __pycache__/
 
 # Avoid committing duplicate model archive
 models/*.zip
+
+# Additional generated files and caches
+*.npy
+*.pkl
+.cache/
+env/
