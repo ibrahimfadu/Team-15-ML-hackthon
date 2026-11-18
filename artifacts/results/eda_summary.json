@@ -1,0 +1,130 @@
+{
+  "num_training_trips": 80,
+  "analyzed_trips": 10,
+  "missing_gps_values": 0,
+  "sampling_interval_mean": 1.3217436118784531,
+  "sampling_interval_median": 1.0,
+  "pct_exact_1_second_intervals": 96.90089779005525,
+  "trips": [
+    {
+      "trip_id": "00000001",
+      "gps_points": 1315,
+      "route_arcs": 525,
+      "total_nodes": 88809,
+      "total_arcs": 165790,
+      "duration_sec": 1357.0,
+      "min_lon": 8.570524,
+      "max_lon": 8.64786,
+      "min_lat": 49.844053,
+      "max_lat": 50.211882
+    },
+    {
+      "trip_id": "00000002",
+      "gps_points": 7243,
+      "route_arcs": 262,
+      "total_nodes": 7936,
+      "total_arcs": 16139,
+      "duration_sec": 8933.156,
+      "min_lon": 10.999961,
+      "max_lon": 11.050902,
+      "min_lat": 47.658344,
+      "max_lat": 47.695459
+    },
+    {
+      "trip_id": "00000003",
+      "gps_points": 821,
+      "route_arcs": 79,
+      "total_nodes": 9138,
+      "total_arcs": 18028,
+      "duration_sec": 823.0,
+      "min_lon": 37.154202,
+      "max_lon": 37.201595,
+      "min_lat": 55.977135,
+      "max_lat": 56.007585
+    },
+    {
+      "trip_id": "00000004",
+      "gps_points": 1064,
+      "route_arcs": 320,
+      "total_nodes": 7350,
+      "total_arcs": 15499,
+      "duration_sec": 5217.0,
+      "min_lon": 12.34228,
+      "max_lon": 12.459615,
+      "min_lat": 52.590308,
+      "max_lat": 52.71896
+    },
+    {
+      "trip_id": "00000005",
+      "gps_points": 1045,
+      "route_arcs": 105,
+      "total_nodes": 898,
+      "total_arcs": 1579,
+      "duration_sec": 1044.0,
+      "min_lon": 35.485577,
+      "max_lon": 35.544315,
+      "min_lat": 49.357581,
+      "max_lat": 49.613085
+    },
+    {
+      "trip_id": "00000006",
+      "gps_points": 1450,
+      "route_arcs": 261,
+      "total_nodes": 3259,
+      "total_arcs": 6757,
+      "duration_sec": 2102.0,
+      "min_lon": 37.276002,
+      "max_lon": 37.317675,
+      "min_lat": 55.429164,
+      "max_lat": 55.487229
+    },
+    {
+      "trip_id": "00000008",
+      "gps_points": 3093,
+      "route_arcs": 173,
+      "total_nodes": 4995,
+      "total_arcs": 10421,
+      "duration_sec": 3093.0,
+      "min_lon": -86.58486,
+      "max_lon": -86.567487,
+      "min_lat": 34.733275,
+      "max_lat": 34.753704
+    },
+    {
+      "trip_id": "00000010",
+      "gps_points": 2711,
+      "route_arcs": 210,
+      "total_nodes": 8502,
+      "total_arcs": 15715,
+      "duration_sec": 2710.0,
+      "min_lon": 37.357893,
+      "max_lon": 37.39479,
+      "min_lat": 55.786261,
+      "max_lat": 55.832857
+    },
+    {
+      "trip_id": "00000011",
+      "gps_points": 2828,
+      "route_arcs": 565,
+      "total_nodes": 2649,
+      "total_arcs": 5393,
+      "duration_sec": 3735.0,
+      "min_lon": 59.647057,
+      "max_lon": 60.016866,
+      "min_lat": 56.041788,
+      "max_lat": 56.067535
+    },
+    {
+      "trip_id": "00000012",
+      "gps_points": 1608,
+      "route_arcs": 205,
+      "total_nodes": 16376,
+      "total_arcs": 38599,
+      "duration_sec": 1608.0,
+      "min_lon": 44.044515,
+      "max_lon": 44.389906,
+      "min_lat": 36.175914,
+      "max_lat": 36.263587
+    }
+  ]
+}
