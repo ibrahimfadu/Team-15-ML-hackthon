@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PathSnap - Evaluator Interface</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body { background-color: #f8f9fa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .card-metric { border-radius: 10px; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    #map-frame { width: 100%; height: 500px; border-radius: 8px; border: 1px solid #dee2e6; }
+    .status-badge { font-size: 0.85rem; padding: 0.4em 0.8em; }
+  </style>
+</head>
+<body class="p-4">
+
+<div class="container-fluid max-w-6xl">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+    <div>
+      <h2 class="fw-bold mb-0 text-primary">🗺️ PathSnap: Distributed Map-Matching</h2>
+      <p class="text-muted mb-0">Laptop 2 — Evaluator Interface</p>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <label class="form-label mb-0 fw-semibold">Laptop 1 API:</label>
+      <input type="text" id="api-host" class="form-control form-control-sm w-auto" value="http://localhost:8000">
+      <button class="btn btn-sm btn-outline-secondary" onclick="checkConnection()">Test Connection</button>
+      <span id="conn-status" class="badge bg-secondary status-badge">Unknown</span>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Controls Column -->
+    <div class="col-md-4">
+      <div class="card card-metric p-3 mb-4">
+        <h5 class="fw-bold mb-3">📋 Select Evaluation Trip</h5>
+        <div class="mb-3">
+          <label class="form-label text-muted">Reserved Evaluator Trips:</label>
+          <select id="trip-select" class="form-select form-select-lg">
+            <option value="00000015">Trip 00000015</option>
+            <option value="00000017">Trip 00000017</option>
+            <option value="00000023">Trip 00000023</option>
+            <option value="00000030">Trip 00000030</option>
+            <option value="00000049">Trip 00000049</option>
+            <option value="00000059">Trip 00000059</option>
+            <option value="00000067">Trip 00000067</option>
+            <option value="00000073">Trip 00000073</option>
+            <option value="00000087">Trip 00000087</option>
+            <option value="00000094">Trip 00000094</option>
+          </select>
+        </div>
+        <button id="run-btn" class="btn btn-primary btn-lg w-100 fw-bold" onclick="runEvaluation()">
+          🚀 Run Map-Matching
+        </button>
+      </div>
+
+      <!-- Execution Performance -->
+      <div id="perf-card" class="card card-metric p-3" style="display:none;">
+        <h6 class="fw-bold text-muted mb-2">⚡ Execution Profile (Laptop 1)</h6>
+        <ul class="list-group list-group-flush small">
+          <li class="list-group-item d-flex justify-content-between">Feature Extraction: <span id="feat-time" class="fw-bold">0.0s</span></li>
+          <li class="list-group-item d-flex justify-content-between">Random Forest Scoring: <span id="model-time" class="fw-bold">0.0s</span></li>
+          <li class="list-group-item d-flex justify-content-between">HMM Viterbi Decoder: <span id="hmm-time" class="fw-bold">0.0s</span></li>
+          <li class="list-group-item d-flex justify-content-between text-primary">Total Latency: <span id="total-time" class="fw-bold">0.0s</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Results Column -->
+    <div class="col-md-8">
+      <!-- Metric Cards -->
+      <div id="metric-cards" class="row g-3 mb-4" style="display:none;">
+        <div class="col-md-3">
+          <div class="card card-metric p-3 text-center bg-white">
+            <span class="text-muted small">Observation Accuracy</span>
+            <h4 id="obs-acc" class="fw-bold text-success mb-0">--</h4>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-metric p-3 text-center bg-white">
+            <span class="text-muted small">Route Continuity</span>
+            <h4 id="cont-score" class="fw-bold text-primary mb-0">--</h4>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-metric p-3 text-center bg-white">
+            <span class="text-muted small">Reconstructed Arcs</span>
+            <h4 id="route-len" class="fw-bold text-dark mb-0">--</h4>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card card-metric p-3 text-center bg-white">
+            <span class="text-muted small">Total Latency</span>
+            <h4 id="latency-val" class="fw-bold text-secondary mb-0">--</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Route Arcs Preview -->
+      <div id="route-box" class="card card-metric p-3 mb-4" style="display:none;">
+        <h6 class="fw-bold mb-2">🛣️ Reconstructed Road Route (arc_id sequence):</h6>
+        <div id="route-list" class="small p-2 bg-light rounded text-monospace" style="max-height: 100px; overflow-y: auto;"></div>
+      </div>
+
+      <!-- Map Display -->
+      <div class="card card-metric p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="fw-bold mb-0">🗺️ Interactive Reconstructed Route Map</h5>
+          <span class="badge bg-light text-dark border">🟢 Reconstructed Route | 🔵 Raw GPS Track</span>
+        </div>
+        <iframe id="map-frame" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function getApiBase() {
+    return document.getElementById("api-host").value.replace(/\/$/, "");
+  }
+
+  async function checkConnection() {
+    const statusBadge = document.getElementById("conn-status");
+    statusBadge.className = "badge bg-warning status-badge";
+    statusBadge.innerText = "Checking...";
+    try {
+      const resp = await fetch(getApiBase() + "/health");
+      if (resp.ok) {
+        statusBadge.className = "badge bg-success status-badge";
+        statusBadge.innerText = "Connected";
+        loadTrips();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      statusBadge.className = "badge bg-danger status-badge";
+      statusBadge.innerText = "Offline";
+    }
+  }
+
+  async function loadTrips() {
+    try {
+      const resp = await fetch(getApiBase() + "/trips");
+      const data = await resp.json();
+      if (data.trips && data.trips.length > 0) {
+        const select = document.getElementById("trip-select");
+        select.innerHTML = "";
+        data.trips.forEach(t => {
+          const opt = document.createElement("option");
+          opt.value = t;
+          opt.innerText = "Trip " + t;
+          select.appendChild(opt);
+        });
+      }
+    } catch (e) {
+      console.log("Could not refresh trips:", e);
+    }
+  }
+
+  async function runEvaluation() {
+    const tripId = document.getElementById("trip-select").value;
+    const btn = document.getElementById("run-btn");
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Reconstructing Route...`;
+
+    try {
+      const resp = await fetch(getApiBase() + "/predict/" + tripId, { method: "POST" });
+      if (!resp.ok) throw new Error("Inference error: " + resp.statusText);
+      const data = await resp.json();
+
+      // Show cards
+      document.getElementById("metric-cards").style.display = "flex";
+      document.getElementById("perf-card").style.display = "block";
+      document.getElementById("route-box").style.display = "block";
+
+      // Fill Metrics
+      const obsAcc = data.metrics.observation_top1_accuracy;
+      document.getElementById("obs-acc").innerText = typeof obsAcc === 'number' ? (obsAcc * 100).toFixed(2) + "%" : obsAcc;
+      document.getElementById("cont-score").innerText = (data.metrics.route_continuity_score * 100).toFixed(1) + "%";
+      document.getElementById("route-len").innerText = data.reconstructed_route_length + " arcs";
+      document.getElementById("latency-val").innerText = data.latencies.total_latency_sec + "s";
+
+      // Fill Latencies
+      document.getElementById("feat-time").innerText = data.latencies.feature_extraction_sec + "s";
+      document.getElementById("model-time").innerText = data.latencies.model_inference_sec + "s";
+      document.getElementById("hmm-time").innerText = data.latencies.hmm_decoding_sec + "s";
+      document.getElementById("total-time").innerText = data.latencies.total_latency_sec + "s";
+
+      // Fill Route list
+      document.getElementById("route-list").innerText = JSON.stringify(data.full_predicted_route);
+
+      // Render Map in iframe
+      const frame = document.getElementById("map-frame");
+      frame.srcdoc = data.map_html;
+
+    } catch (err) {
+      alert("Error contacting Laptop 1: " + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = "🚀 Run Map-Matching";
+    }
+  }
+
+  // Auto check on load
+  window.onload = checkConnection;
+</script>
+
+</body>
+</html>
