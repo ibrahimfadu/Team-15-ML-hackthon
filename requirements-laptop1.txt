@@ -1,0 +1,15 @@
+# Laptop 1: data, model training, HMM, API
+numpy
+pandas
+scipy
+scikit-learn
+joblib
+matplotlib
+seaborn
+folium
+networkx
+optuna
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic

@@ -1,0 +1,28 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Local editor and OS files
+.vscode/
+.idea/
+.DS_Store
+
+# Secrets and logs
+.env
+*.log
+
+# Raw datasets should stay outside Git unless organisers explicitly require them
+data/raw/*
+!data/raw/.gitkeep
+data/evaluator_test/*
+!data/evaluator_test/.gitkeep
+*.zip
+
+# Temporary exports
+*.tmp

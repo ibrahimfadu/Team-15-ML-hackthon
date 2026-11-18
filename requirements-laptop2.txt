@@ -1,0 +1,5 @@
+# Laptop 2: evaluator-facing Python UI only
+streamlit
+requests
+folium
+streamlit-folium
